@@ -1,53 +1,41 @@
 package com.project.lms.controller;
 
 import com.project.lms.model.Transaction;
-import com.project.lms.repo.TransactionRepo;
+import com.project.lms.model.TransactionRequest;
+import com.project.lms.service.TransactionService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-@CrossOrigin
+
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/transactions")
 public class TransactionController {
 
+    private final TransactionService transactionService;
 
-    private final TransactionRepo transactionRepo;
-
-    public TransactionController(TransactionRepo transactionRepo) {
-        this.transactionRepo = transactionRepo;
+    public TransactionController(TransactionService transactionService) {
+        this.transactionService = transactionService;
     }
 
     @GetMapping
-    public List<Transaction> getTransactions() {
-        return transactionRepo.findAll();
+    public void getTransactions() {
+        transactionService.getAllTransactions();
     }
 
     @GetMapping("/{transactionID}")
-    public Transaction getTransactionDetails(@PathVariable String transactionID) {
-        for (Transaction transaction : transactionRepo.findAll()) {
-            if (transaction.getTransactionId().equals(transactionID)) {
-                return transaction;
-            }
-        }
-        return null;
+    public void getTransactionDetails(@PathVariable String transactionID) {
+        transactionService.getTransactionById(transactionID);
     }
 
     @PostMapping
-    public Transaction addTransaction(@RequestBody Transaction transaction) {
-        return transactionRepo.save(transaction);
+    public void addTransaction(@RequestBody TransactionRequest transactionReq) {
+        transactionService.addTransaction(transactionReq);
     }
+
     @DeleteMapping("/{transactionId}")
     public void deleteTransaction(@PathVariable String transactionId) {
-        for (Transaction transaction : transactionRepo.findAll()) {
-            if  (transaction.getTransactionId().equals(transactionId)) {
-                transactionRepo.delete(transaction);
-            }
-        }
+        transactionService.deleteTransaction(transactionId);
     }
-
-    @PutMapping
-    public Transaction updateTransaction(@RequestBody Transaction transaction) {
-        return transactionRepo.save(transaction);
-    }
-
 }

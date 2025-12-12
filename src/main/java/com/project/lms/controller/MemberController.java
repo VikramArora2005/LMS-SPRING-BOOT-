@@ -1,40 +1,51 @@
 package com.project.lms.controller;
 
 import com.project.lms.model.Member;
-import com.project.lms.repo.MemberRepo;
+import com.project.lms.model.MemberBookDTO;
+import com.project.lms.service.MemberService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-@CrossOrigin
+
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/members")
 public class MemberController {
 
+    private final MemberService memberService;
 
-    private final MemberRepo memberRepo;
-
-    public MemberController(MemberRepo memberRepo) {
-        this.memberRepo = memberRepo;
+    public MemberController(MemberService memberService) {
+        this.memberService = memberService;
     }
 
     @GetMapping
-    public List<Member> getBooks() {
-        return memberRepo.findAll();
+    public void getAllMembers() {
+        memberService.getAllMembers();
+    }
+
+    @GetMapping("/{memberID}")
+    public void getMember(@PathVariable long memberID) {
+        memberService.getMemberById(memberID);
     }
 
     @PostMapping
-    public Member addMember(@RequestBody Member member) {
-        return memberRepo.save(member);
-    }
-    @DeleteMapping
-    public void deleteMember(@RequestBody long memberId) {
-        memberRepo.deleteById(memberId);
-
+    public void addMember(@RequestBody Member member) {
+        memberService.addMember(member);
     }
 
     @PutMapping
-    public Member updateMember(@RequestBody Member member) {
-        return memberRepo.save(member);
+    public void updateMember(@RequestBody Member member) {
+        memberService.updateMember(member);
     }
 
+    @DeleteMapping("/{memberId}")
+    public void deleteMember(@PathVariable long memberId) {
+        memberService.deleteMember(memberId);
+    }
+
+    @GetMapping("/{memberID}/books")
+    public void getMemberBooks(@PathVariable long memberID) {
+        memberService.getMemberBooks(memberID);
+    }
 }

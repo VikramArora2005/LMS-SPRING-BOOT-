@@ -1,5 +1,6 @@
 package com.project.lms.model;
 
+import java.util.List;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -16,19 +17,25 @@ public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private String name;
     private String contact;
+    private String name;
+
+
+
+
+
+
+
 
 
     // Getters and setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
-    public String getTitle() { return name; }
-    public void setTitle(String name) { this.name = name; }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
 
-    public String getAuthor() { return contact; }
-    public void setAuthor(String contact) { this.contact = contact; }
+    public String getContact() { return contact; }
+    public void setContact(String contact) { this.contact = contact; }
 
 }

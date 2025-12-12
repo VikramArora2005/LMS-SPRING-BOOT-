@@ -18,10 +18,12 @@ public class Transaction {
 
     @Id
     private String transactionId;
-    private int memberId;
-    private int bookId;
+    private long memberId;
+    private long bookId;
     private String transactionType; // "borrow" or "return"
     private LocalDate transactionDate;
+
+
 
     @PrePersist
     public void generateTransactionID(){
@@ -43,6 +45,7 @@ public class Transaction {
 
 
 
+
     // Getters and Setters
     public String getTransactionId() {
         return transactionId;
@@ -52,19 +55,19 @@ public class Transaction {
         this.transactionId = transactionId;
     }
 
-    public int getMemberId() {
+    public long getMemberId() {
         return memberId;
     }
 
-    public void setMemberId(int memberId) {
+    public void setMemberId(long memberId) {
         this.memberId = memberId;
     }
 
-    public int getBookId() {
+    public long getBookId() {
         return bookId;
     }
 
-    public void setBookId(int bookId) {
+    public void setBookId(long bookId) {
         this.bookId = bookId;
     }
 
